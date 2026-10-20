@@ -1,1 +1,7 @@
 /.lake
+
+/paper-build/
+/paper-review-*/
+/paper/*.aux
+/paper/*.log
+/paper/*.out
