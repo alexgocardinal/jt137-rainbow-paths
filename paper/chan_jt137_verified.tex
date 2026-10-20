@@ -81,7 +81,7 @@ $(c(11),c(7))$&Forced assignments, in order&Outcome\\
 $(1,2)$&$12:3,\ 0:0,\ 1:0,\ 5:2,\ 6:3$&Vertex $9$ sees colors $0,1,2,3$ at $0,11,5,6$.\\[4pt]
 $(1,3)$&$6:0,\ 0:3,\ 9:2,\ 10:0,\ 1:2$&Vertex $12$ sees colors $0,1,2,3$ at $2,4,1,0$.\\[4pt]
 $(3,1)$&$6:0,\ 0:3,\ 12:2,\ 1:0,\ 3:3,\ 5:1,\ 9:2$&Vertex $10$ sees colors $0,1,2,3$ at $1,4,9,3$.\\[4pt]
-$(3,2)$&$1:0,\ 10:3,\ 12:3,\ 0:0,\ 6:1,\ 3:0,\ 9:2,\ 5:1$&The coloring $c_0$ in~\eqref{eq:classes}.\\
+$(3,2)$&$1:0,\ 10:3,\ 12:3,\ 0:0,$\newline $6:1,\ 3:0,\ 9:2,\ 5:1$&The coloring $c_0$ in~\eqref{eq:classes}.\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -119,15 +119,16 @@ $12\to1$&$0,3,4,5,7$&$10$&$0303,1303,2303$&5\\
 Lemma~\ref{lem:unique} gives $\chi(G)=4$, and the displayed topological ordering proves acyclicity. Every proper four-coloring differs from $c_0$ only in its color names, which does not change whether a path is rainbow. Lemma~\ref{lem:paths} therefore excludes a rainbow directed four-vertex path for every proper four-coloring.
 \end{proof}
 
+
 \paragraph{A 37-edge variant.}
-Add the arc $3\to4$. The displayed topological ordering remains valid. Every proper four-coloring of the enlarged graph is proper for $G$, and $c_0$ remains proper, so the enlarged graph is again four-chromatic with the same unique partition. Since $3$ has no incoming arc, every new directed four-vertex path starts with $3\to4$. There are five such paths, with color words
+Adding $3\to4$ preserves the displayed topological ordering. Every proper four-coloring of the enlarged graph is proper for $G$, and $c_0$ remains proper. Thus the enlarged graph is four-chromatic with the same unique partition. Since $3$ has no incoming arc, every new directed four-vertex path starts with $3\to4$. The five new paths have color words
 \[
 0103,\quad0120,\quad0121,\quad0130,\quad0130.
 \]
-None is rainbow. Thus the enlarged orientation is a second witness, with 37 edges and 26 directed four-vertex paths.
+None is rainbow, so the 37-edge orientation is another witness, with 26 directed four-vertex paths.
 
 \paragraph{Formal verification.}
-The finite assertions have also been checked in Lean~4.35.0. For each of the two arc lists, the formal certificate proves looplessness, absence of opposite arcs, existence of a proper four-coloring, nonexistence of a proper three-coloring, and absence of a rainbow directed four-vertex path for \emph{every} proper four-coloring. In fact, the last assertion is proved for every directed walk of three arcs, without requiring distinct vertices. The proof also establishes the color-class equalities used in Lemma~\ref{lem:unique}. The source and graph data are available in the accompanying repository.\footnote{\url{https://github.com/alexgocardinal/jt137-rainbow-paths}. The final certificates are \texttt{JT137.counterexample36} and \texttt{JT137.counterexample37}; the repository records the Lean version and proof-dependency audit.} The topological ordering and Tables~\ref{tab:arcs}--\ref{tab:paths} give an independent human-readable proof; no software is needed to follow it.
+Lean~4.35.0 also verifies both finite constructions: looplessness, absence of opposite arcs, existence of a proper four-coloring, impossibility of a proper three-coloring, and the no-rainbow assertion for every proper four-coloring. The last assertion covers all directed walks of three arcs. The formal proof includes the color-class equalities in Lemma~\ref{lem:unique}. Source and graph data are available in the accompanying repository.\footnote{\url{https://github.com/alexgocardinal/jt137-rainbow-paths}. The final certificates are \texttt{JT137.counterexample36} and \texttt{JT137.counterexample37}.} The preceding argument is independent of this verification.
 
 \begin{thebibliography}{9}
 \bibitem{Berge} C. Berge, Problem, in \emph{Combinatorics 79, Part II}, M. Deza and I. G. Rosenberg, eds., Annals of Discrete Mathematics \textbf{9}, North-Holland, 1980, p.~297.
