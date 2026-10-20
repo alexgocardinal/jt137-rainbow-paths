@@ -1,0 +1,137 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,tabularx,array}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue]{hyperref}
+\hypersetup{pdftitle={A four-chromatic orientation without a rainbow directed P4},pdfauthor={Alex Chan}}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newcommand{\out}{N^{+}}
+\title{A four-chromatic orientation without a rainbow directed $P_4$}
+\author{Alex Chan\\[2pt]
+  \small Harvard University and National Bureau of Economic Research\\[-1pt]
+  \small \texttt{achan@hbs.edu}}
+\date{October 20, 2026}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Jensen and Toft ask whether every orientation of a four-chromatic graph has a directed path meeting each color class exactly once in some proper four-coloring. We give an acyclic orientation of a graph with 13 vertices and 36 edges for which the answer is no. The graph has a unique proper four-color partition, and an examination of the possible middle arcs shows that none of its directed four-vertex paths is rainbow. We give a self-contained finite proof. The chromatic-number and no-rainbow assertions, including the quantifier over all proper four-colorings, are also verified in Lean.
+\end{abstract}
+
+\section{The question and the example}
+For an orientation $D$ of a graph $G$, a directed path is \emph{rainbow} with respect to a proper coloring $c$ if its vertices have pairwise distinct colors. Jensen and Toft~\cite[Section~13.7, pp.~214--215]{JT} ask whether, for every four-chromatic $G$ and every orientation $D$ of $G$, there are a proper four-coloring $c$ and a directed path meeting each of the four color classes exactly once. Thus the path has four vertices. The choice of $c$ is part of the question; excluding a rainbow path for one prescribed coloring would not suffice. The question belongs to the line of problems discussed by Berge~\cite{Berge} and Meyniel~\cite{Meyniel}.
+
+\begin{theorem}\label{thm:main}
+There is a four-chromatic graph $G$ on 13 vertices and an acyclic orientation $D$ of $G$ such that no directed path of $D$ meets each color class exactly once in any proper four-coloring of $G$.
+\end{theorem}
+
+Let $V(G)=\{0,1,\ldots,12\}$. Table~\ref{tab:arcs} specifies every arc of $D$; the underlying unordered pairs are precisely the edges of $G$. There are 36 arcs, no loops, and no pair of opposite arcs. The order
+\[
+0,3,11,4,5,7,8,9,12,1,2,6,10
+\]
+is a topological ordering, so $D$ is acyclic. Write $c_0$ for the coloring with classes
+\begin{equation}\label{eq:classes}
+\begin{aligned}
+c_0^{-1}(0)&=\{0,1,2,3\},&c_0^{-1}(1)&=\{4,5,6\},\\
+c_0^{-1}(2)&=\{7,8,9\},&c_0^{-1}(3)&=\{10,11,12\}.
+\end{aligned}
+\end{equation}
+Every arc in Table~\ref{tab:arcs} joins distinct classes, so $c_0$ is proper.
+
+\begin{table}[t]
+\centering
+\caption{Complete out-neighbor lists for the 36-edge orientation.}\label{tab:arcs}
+\begin{tabular}{cl@{\qquad}cl}
+\toprule
+$v$&$\out(v)$&$v$&$\out(v)$\\
+\midrule
+0&$4,6,8,9,12$&7&$1,2,6,10,12$\\
+1&$10$&8&$2,6$\\
+2&$\varnothing$&9&$6,10$\\
+3&$6,7,10,12$&10&$\varnothing$\\
+4&$1,2,8,10,12$&11&$1,2,5,6,7,8,9$\\
+5&$1,9,12$&12&$1,2$\\
+6&$\varnothing$&&\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Uniqueness of the color partition}
+\begin{lemma}\label{lem:unique}
+Every proper four-coloring of $G$ has the classes in~\eqref{eq:classes}, up to a permutation of the color names. Consequently $\chi(G)=4$.
+\end{lemma}
+\begin{proof}
+Consider a proper coloring with colors $0,1,2,3$. Since $2,4,8$ form a triangle, we may permute the color names so that their colors are $0,1,2$, respectively. Vertex $11$ is adjacent to $2$ and $8$, so its color is $1$ or $3$. Vertex $7$ is adjacent to $2$ and $11$. There are therefore exactly four possible ordered pairs $(c(11),c(7))$, listed in Table~\ref{tab:forcing}.
+
+Read the assignments in each row from left to right. At each step the assigned vertex has already colored neighbors in the three other colors, so its displayed color is forced. In the first row, for example, the neighbors $2,4,7$ force $c(12)=3$. Each of the first three rows ends with a vertex having neighbors in all four colors, as specified in the last column. These rows are impossible. The fourth row assigns all remaining vertices and gives precisely $c_0$, which is proper.
+
+This proves uniqueness of the partition. A proper three-coloring could be viewed as a four-coloring with one unused color, whereas every class in~\eqref{eq:classes} is nonempty. No proper three-coloring exists, and $\chi(G)=4$.
+\end{proof}
+
+\begin{table}[t]
+\centering
+\caption{Exhaustive forcing cases. The notation $v:i$ means $c(v)=i$.}\label{tab:forcing}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabularx}{\textwidth}{@{}c>{\raggedright\arraybackslash}p{0.43\textwidth}X@{}}
+\toprule
+$(c(11),c(7))$&Forced assignments, in order&Outcome\\
+\midrule
+$(1,2)$&$12:3,\ 0:0,\ 1:0,\ 5:2,\ 6:3$&Vertex $9$ sees colors $0,1,2,3$ at $0,11,5,6$.\\[4pt]
+$(1,3)$&$6:0,\ 0:3,\ 9:2,\ 10:0,\ 1:2$&Vertex $12$ sees colors $0,1,2,3$ at $2,4,1,0$.\\[4pt]
+$(3,1)$&$6:0,\ 0:3,\ 12:2,\ 1:0,\ 3:3,\ 5:1,\ 9:2$&Vertex $10$ sees colors $0,1,2,3$ at $1,4,9,3$.\\[4pt]
+$(3,2)$&$1:0,\ 10:3,\ 12:3,\ 0:0,\ 6:1,\ 3:0,\ 9:2,\ 5:1$&The coloring $c_0$ in~\eqref{eq:classes}.\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{The directed paths}
+\begin{lemma}\label{lem:paths}
+No directed path on four vertices in $D$ is rainbow with respect to $c_0$.
+\end{lemma}
+\begin{proof}
+Write such a path as $x\to u\to v\to y$. Its middle arc $u\to v$ must have a predecessor of $u$ and a successor of $v$. Exactly the nine arcs in Table~\ref{tab:paths} have this property. For each, the table lists all possible $x$ and $y$ and the resulting color words $c_0(x)c_0(u)c_0(v)c_0(y)$. The displayed predecessor and successor sets are disjoint from the middle vertices and from each other, so every listed choice is a path on four distinct vertices. Every color word has a repeated digit. The counts sum to 21, and no path is rainbow.
+\end{proof}
+
+\begin{table}[t]
+\centering
+\caption{Every possible middle arc of a directed four-vertex path.}\label{tab:paths}
+\small
+\begin{tabular}{ccclc}
+\toprule
+$u\to v$&Possible $x$&Possible $y$&Color words&Paths\\
+\midrule
+$4\to1$&$0$&$10$&$0103$&1\\
+$4\to8$&$0$&$2,6$&$0120,0121$&2\\
+$4\to12$&$0$&$1,2$&$0130$&2\\
+$5\to1$&$11$&$10$&$3103$&1\\
+$5\to9$&$11$&$6,10$&$3121,3123$&2\\
+$5\to12$&$11$&$1,2$&$3130$&2\\
+$7\to1$&$3,11$&$10$&$0203,3203$&2\\
+$7\to12$&$3,11$&$1,2$&$0230,3230$&4\\
+$12\to1$&$0,3,4,5,7$&$10$&$0303,1303,2303$&5\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Lemma~\ref{lem:unique} gives $\chi(G)=4$, and the displayed topological ordering proves acyclicity. Every proper four-coloring differs from $c_0$ only in its color names, which does not change whether a path is rainbow. Lemma~\ref{lem:paths} therefore excludes a rainbow directed four-vertex path for every proper four-coloring.
+\end{proof}
+
+\paragraph{A 37-edge variant.}
+Add the arc $3\to4$. The displayed topological ordering remains valid. Every proper four-coloring of the enlarged graph is proper for $G$, and $c_0$ remains proper, so the enlarged graph is again four-chromatic with the same unique partition. Since $3$ has no incoming arc, every new directed four-vertex path starts with $3\to4$. There are five such paths, with color words
+\[
+0103,\quad0120,\quad0121,\quad0130,\quad0130.
+\]
+None is rainbow. Thus the enlarged orientation is a second witness, with 37 edges and 26 directed four-vertex paths.
+
+\paragraph{Formal verification.}
+The finite assertions have also been checked in Lean~4.35.0. For each of the two arc lists, the formal certificate proves looplessness, absence of opposite arcs, existence of a proper four-coloring, nonexistence of a proper three-coloring, and absence of a rainbow directed four-vertex path for \emph{every} proper four-coloring. In fact, the last assertion is proved for every directed walk of three arcs, without requiring distinct vertices. The proof also establishes the color-class equalities used in Lemma~\ref{lem:unique}. The source and graph data are available in the accompanying repository.\footnote{\url{https://github.com/alexgocardinal/jt137-rainbow-paths}. The final certificates are \texttt{JT137.counterexample36} and \texttt{JT137.counterexample37}; the repository records the Lean version and proof-dependency audit.} The topological ordering and Tables~\ref{tab:arcs}--\ref{tab:paths} give an independent human-readable proof; no software is needed to follow it.
+
+\begin{thebibliography}{9}
+\bibitem{Berge} C. Berge, Problem, in \emph{Combinatorics 79, Part II}, M. Deza and I. G. Rosenberg, eds., Annals of Discrete Mathematics \textbf{9}, North-Holland, 1980, p.~297.
+\bibitem{JT} T. R. Jensen and B. Toft, \emph{Graph Coloring Problems}, Wiley, New York, 1995.
+\bibitem{Meyniel} H. Meyniel, About colorings, stability and paths in directed graphs, \emph{Discrete Math.} \textbf{74} (1989), 149--150.
+\end{thebibliography}
+\end{document}

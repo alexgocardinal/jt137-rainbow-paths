@@ -1,0 +1,41 @@
+name: Build paper
+
+on:
+  push:
+    paths:
+      - 'paper/**'
+      - '.github/workflows/paper.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  paper:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install LaTeX
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            texlive-latex-base texlive-latex-recommended \
+            texlive-fonts-recommended
+
+      - name: Compile paper
+        run: |
+          pdflatex -interaction=nonstopmode -halt-on-error \
+            -output-directory=paper paper/chan_jt137_verified.tex
+          pdflatex -interaction=nonstopmode -halt-on-error \
+            -output-directory=paper paper/chan_jt137_verified.tex
+
+      - name: Save PDF and source
+        uses: actions/upload-artifact@v4
+        with:
+          name: jt137-paper
+          path: |
+            paper/chan_jt137_verified.pdf
+            paper/chan_jt137_verified.tex
+          if-no-files-found: error
