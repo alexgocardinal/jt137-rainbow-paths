@@ -1,0 +1,12 @@
+{
+  "status": "MATHEMATICAL_COUNTEREXAMPLE_VERIFIED",
+  "target": "JT13.7 exactbookquestion",
+  "n": 13,
+  "m": 37,
+  "canonical3colorings": 0,
+  "canonical4colorings": 1,
+  "directed4vertexpaths": 26,
+  "fresh_rup_proofs": 28,
+  "rup_additions": 75,
+  "publication_status": "Priority/currentopennessindependentsearchpending"
+}
